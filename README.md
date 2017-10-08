@@ -7,6 +7,7 @@
 	git clone git@source.amylabs.ru:yupe2/docker.git yupe2
 	
 Важно клонировать проект в папку с именем `yupe2`
+
 Если этого не сделать то проект не взлетит) В планах изменить это поведение.
 
 Для работы с репозиторием необходимы:
@@ -15,17 +16,24 @@
  - [Git](https://git-scm.com/downloads)
 
 Что бы контейнер смог скачать все зависимости Вам необходимо добавить ssh ключи в контейнер.
-Например я создал ключ id_rsa.pub (+ id_rsa) и добавил его к своему аккаунту в репозитории Yupe2 - https://source.amylabs.ru
-Ключи в docker контейнердобавляются в дирректорию ./docker/source/ssh:
 
+Например я создал ключ id_rsa.pub (+ id_rsa) и добавил его к своему аккаунту в репозитории Yupe2 - https://source.amylabs.ru
+
+Ключи в docker контейнер добавляются в дирректорию ./docker/source/ssh:
+
+    mkdir -p docker/source/ssh
     cp ~/.ssh/id_rsa docker/source/ssh
     cp ~/.ssh/id_rsa.pub docker/source/ssh
 
-Можно сделать символьную ссылку, например так:
+Более простой вариант - можно сделать символьную ссылку, например так:
 
     ln -s ~/.ssh docker/source/ssh
 
-Для заупска bash скрипта управления Yupe2 приложением в Docker контейнерах необходимо дать файлу "./yupe2" права на исполнение:
+Или так:
+
+    ./yupe2 link-ssh
+
+Для заупска bash скрипта необходимо дать файлу "./yupe2" права на исполнение:
 
         chmod +x yupe2
 
@@ -33,8 +41,8 @@
 
     $ ./yupe2
     usage: ./yupe2 [set-env] [check-env] [check-config]
-                  [build] [build-nocache] [create] [install] [update]
-                  [start] [stop] [ps] [restart] [db-backup] [db-restore]
+                   [build] [build-nocache] [create] [install] [update]
+                   [start] [stop] [restart] [ps] [init] [migrate] [link-ssh]
 
     description:
           set-env           - set application environment [ dev | prod ]
@@ -51,30 +59,27 @@
           ps                - list of working containers in current environment
           init              - initialisation of Yupe2! application
           migrate           - docker exec -it yupe2_php_1 php yii migrate
+          link-ssh          - ln -s ~/.ssh ./docker/source/ssh
 
 
     ./yupe2 set-env [ dev | prod ]
 
     See ./yupe2 --help to read about all commands.
     
-[Yupe2 http://localhost:11771](http://localhost:7771)
-[Backend http://localhost:11771/backend](http://localhost:7771/backend)
-[Adminer http://localhost:11772](http://localhost:7772)
+- [Yupe2 http://localhost:11771](http://localhost:7771)
+- [Backend http://localhost:11771/backend](http://localhost:7771/backend)
+- [Adminer http://localhost:11772](http://localhost:7772)
 
 Для инициализации Developer окружения выполняем команды по очереди:
 
     ./yupe2 set-env dev
     ./yupe2 create
+    ./yupe2 link-ssh # пропускам если вручную скопированы ключики
 
-    После этого нужно обновить два файла composer.json и main-local.php, а затем продолжить выполнение команд
+После создания приложения необходимо обновить два файла в проекте:
 
-    ./yupe2 build
-    ./yupe2 start
-    ./yupe2 install
-    ./yupe2 init
-    ./yupe2 migrate
-
-После запуска ./yupe2 create необходимо изменить два файла в клонированном проекте:
+- composer.json
+- main-local.php
 
 ./app/yupe/config/main-local.php должен быть таким:
 
@@ -162,7 +167,7 @@
         }
     }
 
-После изменения этих файлов можно запустить
+После изменения composer.json и main-local.php файлов запускаем:
 
     ./yupe2 build
     ./yupe2 start
@@ -189,7 +194,6 @@
 
 Помощь
 ------
-
 Документация:
 - [Docker](https://docs.docker.com/)
 - [docker-compose](https://docs.docker.com/compose/overview/)

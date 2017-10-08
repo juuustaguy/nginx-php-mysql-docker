@@ -36,6 +36,7 @@ APP_DIR=./app
 COMPOSER_CREATE_APP_PATH=
 COMPOSER_APP_PATH=
 COMPOSER_DEV=
+SSH_DIR=./docker/source/ssh
 # Текущее окружение
 CURRENT_ENV=
 #printf 123456 | md5sum | awk '{print $1}'
@@ -85,8 +86,8 @@ fi
 check-dir(){
     if [ ! -d "$APP_DIR" ]; then
         # Control will enter here if $DIRECTORY doesn't exist.
-        echo "Please, install your application to ./app folder."
-        echo "To install/update app dependency run command: ./yupe2 [ install | update ]"
+        echo "Please, install yuoe2 application to ./app folder."
+        echo "To install/update app dependency run command: ./yupe2 create"
         exit 1
     fi
 }
@@ -149,6 +150,7 @@ ps(){
 
 start(){
     check-dir
+    chmode-runtime
     echo "Start Yupe2 in $CURRENT_ENV environment"
     docker-compose -f common.yml -f $CURRENT_ENV.yml up -d
     ps
@@ -187,6 +189,7 @@ create(){
 install(){
     docker exec -it yupe2_php_1 composer install --prefer-dist
     chown
+    chmode-runtime
 }
 
 init(){
@@ -221,6 +224,29 @@ chown(){
     mac)
         echo "Changing owner of application files on iOs"
 
+        ;;
+    esac
+}
+
+link-ssh(){
+    if [ ! -d "$SSH_DIR" ]; then
+        # Control will enter here if $DIRECTORY doesn't exist.
+        echo "Symbol link ~/.ssh to $SSH_DIR"
+        ln -s ~/.ssh $SSH_DIR
+        exit 0
+    fi
+}
+
+chmode-runtime(){
+    echo "Changing mode of application files"
+    case "$PLATFORM" in
+    windows)
+        ;;
+    linux)
+        echo "sudo chmode 777 -R app/yupe/runtime"
+        sudo chmode 777 -R app/yupe/runtime
+        ;;
+    mac)
         ;;
     esac
 }
