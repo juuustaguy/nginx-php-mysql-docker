@@ -38,8 +38,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY ./docker/source/ssh /root/.ssh
 
 RUN chmod 700 /root/.ssh
-RUN chmod 644 /root/.ssh/id_rsa.pub
-RUN chmod 600 /root/.ssh/id_rsa
+RUN chmod 600 /root/.ssh/*
+RUN find /root/.ssh/. -name "*.pub" -exec chmod 644 {} \;
 
 RUN yes | pecl install xdebug \
     && echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini \
