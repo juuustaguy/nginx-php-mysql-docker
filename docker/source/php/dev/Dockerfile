@@ -1,39 +1,46 @@
-FROM php:7.1-fpm
+FROM php:7.2-fpm
 
 COPY ./docker/source/php/dev/config/php.ini /usr/local/etc/php/
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        g++ \
+        tar \
+        zip \
+        wget \
+        procps \
         git \
+        ssh \
         curl \
         apt-utils \
-        libcurl4-openssl-dev \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
-        libpng12-dev \
+        libmemcached-dev \
+        libmagickwand-6.q16-dev \
+        libxslt-dev \
         libxml2-dev \
         libicu-dev \
-        ssh \
-        sendmail \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install -j$(nproc) \
-        gd \
-        iconv \
-        mcrypt \
-        fileinfo \
-        json \
-        mbstring \
-        mysqli \
-        opcache \
-        pdo \
-        pdo_mysql \
-        zip \
-        soap \
-        intl \
-        dom \
-        xml \
-    && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
+        g++ \
+        zlib1g-dev \
+&& docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+&& docker-php-ext-install -j$(nproc) \
+   pcntl \
+   gd \
+   intl \
+   pdo_mysql \
+   iconv \
+   fileinfo \
+   json \
+   opcache \
+   pdo \
+   pdo_mysql \
+   mysqli \
+   xsl \
+   gettext \
+   xml \
+   gettext \
+   exif \
+   soap \
+   zip
 
 COPY ./docker/source/ssh /root/.ssh
 
@@ -46,18 +53,7 @@ RUN yes | pecl install xdebug \
     && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/xdebug.ini \
     && echo "xdebug.remote_port=9000" >> /usr/local/etc/php/conf.d/xdebug.ini
-
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN curl -sL https://deb.nodesource.com/setup_6.x | bash -
-RUN apt-get update && apt-get install -y --no-install-recommends \
-        nodejs \
-        build-essential \
-    && npm install -g less
+RUN composer global require "fxp/composer-asset-plugin:~1.4.6"
 
-COPY ./docker/source/php/dev/script/docker-php-sendmail-entrypoint.sh /usr/local/bin/
-
-RUN chmod 777 /usr/local/bin/docker-php-sendmail-entrypoint.sh
 WORKDIR /app
-ENTRYPOINT ["docker-php-sendmail-entrypoint.sh"]
-
-CMD ["php-fpm"]

@@ -33,12 +33,6 @@ services:
       - "./app/yupe:/app"
     env_file:
       - "./docker/env/prod/APP_ENV.env"
-  adminer:
-    build:
-      context: ./
-      dockerfile: "./docker/source/adminer/Dockerfile"
-    ports:
-      - "${EXTERNAL_ADMINER_PROD_PORT}:80"
 volumes:
   db_data:
     external: false

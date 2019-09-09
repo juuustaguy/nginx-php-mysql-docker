@@ -243,8 +243,8 @@ chmode-runtime(){
     windows)
         ;;
     linux)
-        echo "sudo chmode 777 -R app/yupe/runtime"
-        sudo chmode 777 -R app/yupe/runtime
+        echo "sudo chmod 777 -R app/yupe/runtime"
+        sudo chmod 777 -R app/yupe/runtime
         ;;
     mac)
         ;;

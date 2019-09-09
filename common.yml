@@ -10,22 +10,9 @@ services:
   php:
     restart: always
     links:
-      - redis:cache
       - db:db
     depends_on:
-      - redis
       - db
-  redis:
-    image: "${APP_NAME}-redis:${TAG}"
-    build:
-      context: ./
-      dockerfile: "./docker/source/redis/Dockerfile"
-    restart: always
   db:
     image: "${APP_NAME}-db:${TAG}"
     restart: always
-  adminer:
-    image: "${APP_NAME}-adminer:${TAG}"
-    restart: always
-    links:
-      - db:db
