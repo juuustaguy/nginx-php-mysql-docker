@@ -76,105 +76,14 @@
     ./yupe2 create
     ./yupe2 link-ssh # пропускам если вручную скопированы ключики
 
-После создания приложения необходимо обновить два файла в проекте:
 
-- composer.json
-- main-local.php
-
-./app/yupe/config/main-local.php должен быть таким:
-
-    <?php
-
-    return [
-        'aliases' => [
-            '@frontendUrl' => 'http://localhost:11771',
-            '@backendUrl' => 'http://localhost:11771/backend',
-            '@staticUrl' => 'http://localhost:11771/static',
-            '@bower' => '@vendor/bower-asset',
-            '@npm'   => '@vendor/npm-asset',
-        ],
-        'components' => [
-            'db' => [
-                'class' => 'yii\db\Connection',
-                'dsn' => 'mysql:host=db;dbname=db_yupe',
-                'username' => 'yupe',
-                'password' => '123',
-                'charset' => 'utf8',
-                'enableSchemaCache' => false,
-            ],
-            'cache' => [
-                'class' => \yii\caching\DummyCache::className()
-            ]
-        ],
-    ];
-
-./app/yupe/composer.json должен быть таким:
-
-    {
-        "name": "yupe/yupe2-project-template",
-        "description": "Project template for Yupe2 platform",
-        "keywords": ["yii2", "framework", "yupe", "platform"],
-        "homepage": "http://yupe.ru/",
-        "type": "project",
-        "license": "BSD-3-Clause",
-        "support": {
-            "issues": "https://source.amylabs.ru/yupe2/yupe2-project-template/issues",
-            "source": "https://source.amylabs.ru/yupe2/yupe2-project-template/tree/master"
-        },
-        "repositories": [
-            {
-                "type": "composer",
-                "url": "https://packages.amylabs.ru"
-            },
-            {
-                "type": "composer",
-                "url": "https://asset-packagist.org"
-            }
-        ],
-        "minimum-stability": "dev",
-        "require": {
-            "yupe/yupe2-platform": "dev-master",
-            "amylabs/yupe2-settings": "dev-master",
-            "amylabs/yupe2-mail": "dev-master",
-            "amylabs/yupe2-cron": "dev-master",
-            "amylabs/yupe2-user": "dev-master",
-            "amylabs/yupe2-rbac": "dev-master",
-            "amylabs/yupe2-image": "dev-master",
-            "amylabs/yupe2-upload": "dev-master",
-            "amylabs/yupe2-theme-adminlte": "dev-master",
-            "amylabs/yupe2-panel": "dev-master",
-            "amylabs/yupe2-demo": "dev-master",
-            "amylabs/yupe2-content": "dev-master"
-        },
-        "require-dev": {
-            "codeception/codeception": "2.2.6",
-            "yiisoft/yii2-faker": "*",
-            "amylabs/yupe2-gii": "dev-master",
-            "amylabs/yupe2-debug": "dev-master"
-        },
-        "config": {
-            "process-timeout": 1800
-        },
-        "extra": {
-            "merge-plugin": {
-                "include": [
-                    "plugins/*/*/composer.json"
-                ],
-                "recurse": false,
-                "replace": false,
-                "merge-extra": true
-            }
-        }
-    }
-
-После изменения composer.json и main-local.php файлов запускаем:
+После скачивания репозитория запускаем:
 
     ./yupe2 build
     ./yupe2 start
     ./yupe2 install
     ./yupe2 init
     ./yupe2 migrate
-
 
 Для запуска xDebug в установках PhpStorm необходимо добавить server:
 
