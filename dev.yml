@@ -5,7 +5,7 @@ services:
       context: ./
       dockerfile: "./docker/source/nginx/dev/Dockerfile"
     volumes:
-      - "./app/yupe:/app"
+      - "./app/globus:/app"
       - "./docker/source/nginx/dev/conf.d:/etc/nginx/conf.d:ro"
       - "./docker/logs/dev:/var/log/nginx"
     expose:
@@ -19,9 +19,11 @@ services:
     build:
       context: ./
       dockerfile: "./docker/source/mysql/dev/Dockerfile"
+    ports:
+      - "${EXTERNAL_DB_DEV_PORT}:3306"
     volumes:
       - "db_data:/var/lib/mysql"
-      - "./docker/source/mysql/db_dump/db_yupe:/docker-entrypoint-initdb.d"
+      - "./docker/source/mysql/db_dump/db_globus:/docker-entrypoint-initdb.d"
     env_file:
       - "./docker/env/dev/db.env"
   php:
@@ -30,7 +32,7 @@ services:
       context: ./
       dockerfile: "./docker/source/php/dev/Dockerfile"
     volumes:
-      - "./app/yupe:/app"
+      - "./app/globus:/app"
     env_file:
       - "./docker/env/dev/XDEBUG_CONFIG.env"
       - "./docker/env/dev/PHP_IDE_CONFIG.env"

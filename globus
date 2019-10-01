@@ -6,7 +6,7 @@ SCRIPT="$0"
 
 # описание работы скрипнта --help
 showHelp() {
-    echo "usage: ./yupe2 [set-env] [check-env] [check-config]"
+    echo "usage: ./globus [set-env] [check-env] [check-config]"
     echo "              [build] [build-nocache] [create] [install] [update]"
     echo "              [start] [stop] [ps] [restart]"
     echo ""
@@ -16,19 +16,19 @@ showHelp() {
     echo "      check-config    - check current environment configuration .yml file"
     echo "      build           - build docker containers for application"
     echo "      build-nocache   - force build docker containers for application without docker cached images"
-    echo "      create          - cd app && git clone git@source.amylabs.ru:yupe2/yupe2-project-template yupe"
+    echo "      create          - cd app && git clone git@source.amylabs.ru:globus/globus-project-template yupe"
     echo "      install         - composer install --prefer-dist"
     echo "      update          - composer update --lock"
     echo "      start           - start application environment"
     echo "      stop            - stop application environment"
     echo "      restart         - restart application environment"
     echo "      ps              - list of working containers in current environment"
-    echo "      init            - initialisation of Yupe2! application"
-    echo "      migrate         - docker exec -it yupe2_php_1 php yii migrate"
+    echo "      init            - initialisation of globus! application"
+    echo "      migrate         - docker exec -it globus_php_1 php yii migrate"
     echo ""
-    echo "To set application environment use command: './yupe2 set-env [ dev | prod ]'"
+    echo "To set application environment use command: './globus set-env [ dev | prod ]'"
     echo ""
-    echo "See ./yupe2 --help to read about all commands."
+    echo "See ./globus --help to read about all commands."
 
 }
 
@@ -87,7 +87,7 @@ check-dir(){
     if [ ! -d "$APP_DIR" ]; then
         # Control will enter here if $DIRECTORY doesn't exist.
         echo "Please, install yuoe2 application to ./app folder."
-        echo "To install/update app dependency run command: ./yupe2 create"
+        echo "To install/update app dependency run command: ./globus create"
         exit 1
     fi
 }
@@ -95,7 +95,7 @@ check-dir(){
 # проверка наличие файла со значением переменной окружения
 check-env(){
     if [ ! -f ./docker/env/app_env ]; then
-        echo "missing ./docker/env/app_env file, please create application environment file, use command './yupe2 set-env [ dev | prod ]'"
+        echo "missing ./docker/env/app_env file, please create application environment file, use command './globus set-env [ dev | prod ]'"
         exit 1
     else
         environment
@@ -126,7 +126,7 @@ set-env(){
     *) #если введено с клавиатуры то, что в case не описывается, выполнять следующее:
         echo "Error: The second parameter of the command specify in what environment it is necessary to run the application [ dev | prod ]"
         echo "Ошибка: Вторым параметром команды укажите в каком окружении необходимо запускать приложение [ dev | prod ]"
-        echo "Например: ./yupe2 set-env dev"
+        echo "Например: ./globus set-env dev"
         exit 1;
     esac
 }
@@ -151,7 +151,7 @@ ps(){
 start(){
     check-dir
     chmode-runtime
-    echo "Start Yupe2 in $CURRENT_ENV environment"
+    echo "Start Globus in $CURRENT_ENV environment"
     docker-compose -f common.yml -f $CURRENT_ENV.yml up -d
     ps
     echo 'Please, see logs above to find out environment container status.'
@@ -159,7 +159,7 @@ start(){
 
 stop(){
     check-dir
-    echo "Stop Yupe2 in $CURRENT_ENV environment"
+    echo "Stop Globus in $CURRENT_ENV environment"
     docker-compose -f common.yml -f $CURRENT_ENV.yml down
     ps
     echo 'Please, see logs above to find out environment container status.'
@@ -167,7 +167,7 @@ stop(){
 
 restart(){
     check-dir
-    echo "Restart Yupe2 in $CURRENT_ENV environment"
+    echo "Restart Globus in $CURRENT_ENV environment"
     docker-compose -f common.yml -f $CURRENT_ENV.yml down
     docker-compose -f common.yml -f $CURRENT_ENV.yml up -d
     ps
@@ -182,35 +182,41 @@ check-config(){
 create(){
     mkdir app
     cd app
-    git clone git@source.amylabs.ru:yupe2/yupe2-project-template yupe
+    git clone git@bitbucket.org:bttree/globus-project-template.git globus
     cd ..
 }
 
 install(){
-    docker exec -it yupe2_php_1 composer install --prefer-dist
+    docker exec -it globus_php_1 composer install --prefer-dist
+    chown
+    chmode-runtime
+}
+
+update(){
+    docker exec -it globus_php_1 composer update
     chown
     chmode-runtime
 }
 
 init(){
-    sudo chmod 777 -R app/yupe/runtime/
-    docker exec -it yupe2_php_1 php init
-    docker exec -it yupe2_php_1 php yii plugin/install-all
-    docker exec -it yupe2_php_1 php yii user/user/create
+    sudo chmod 777 -R app/globus/runtime/
+    docker exec -it globus_php_1 php init
+    docker exec -it globus_php_1 php yii plugin/install-all
+    docker exec -it globus_php_1 php yii user/user/create
     chown
-    echo 'Initialisation Yupe2 complete!'
+    echo 'Initialisation Globus complete!'
     echo ''
 
 }
 
 update(){
-    docker exec -it yupe2_php_1 composer update --lock
+    docker exec -it globus_php_1 composer update --lock
     chown
 }
 
 migrate(){
     echo "Apply application DB migrations"
-    docker exec -it yupe2_php_1 php yii migrate
+    docker exec -it globus_php_1 php yii migrate
 }
 
 chown(){
@@ -219,7 +225,7 @@ chown(){
         ;;
     linux)
         echo "Changing owner of application files"
-        sudo chown $USER:$USER -R app/yupe
+        sudo chown $USER:$USER -R app/globus
         ;;
     mac)
         echo "Changing owner of application files on iOs"
@@ -243,8 +249,8 @@ chmode-runtime(){
     windows)
         ;;
     linux)
-        echo "sudo chmod 777 -R app/yupe/runtime"
-        sudo chmod 777 -R app/yupe/runtime
+        echo "sudo chmod 777 -R app/globus/runtime"
+        sudo chmod 777 -R app/globus/runtime
         ;;
     mac)
         ;;
