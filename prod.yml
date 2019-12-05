@@ -5,7 +5,7 @@ services:
       context: ./
       dockerfile: "./docker/source/nginx/prod/Dockerfile"
     volumes:
-      - "./app/globus:/app"
+      - "./app/okocrm:/app"
       - "./docker/source/nginx/prod/conf.d:/etc/nginx/conf.d:ro"
       - "./docker/logs/prod:/var/log/nginx"
     expose:
@@ -18,10 +18,10 @@ services:
   db:
     build:
       context: ./
-      dockerfile: "./docker/source/mariadb/prod/Dockerfile"
+      dockerfile: "./docker/source/mysql/dev/Dockerfile"
     volumes:
       - "db_data:/var/lib/mysql"
-      - "./docker/source/mariadb/db_dump/db_globus:/docker-entrypoint-initdb.d"
+      - "./docker/source/mysql/db_dump/db_okocrm:/docker-entrypoint-initdb.d"
     env_file:
       - "./docker/env/prod/db.env"
   php:
@@ -30,7 +30,7 @@ services:
       context: ./
       dockerfile: "./docker/source/php/prod/Dockerfile"
     volumes:
-      - "./app/globus:/app"
+      - "./app/okocrm:/app"
     env_file:
       - "./docker/env/prod/APP_ENV.env"
 volumes:

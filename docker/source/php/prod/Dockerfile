@@ -41,16 +41,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
    soap \
    zip \
 
-COPY ./docker/source/ssh /root/.ssh
-
-RUN chmod 700 /root/.ssh
-RUN chmod 644 /root/.ssh/id_rsa.pub
-RUN chmod 600 /root/.ssh/id_rsa
-
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-COPY ./docker/source/php/prod/script/docker-php-sendmail-entrypoint.sh /usr/local/bin/
-
-RUN chmod 777 /usr/local/bin/docker-php-sendmail-entrypoint.sh
 
 WORKDIR /app
