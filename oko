@@ -210,13 +210,13 @@ init(){
 }
 
 update(){
-    docker exec -it globus_php_1 composer update --lock
+    docker exec -it okocrm_php_1 composer update --lock
     chown
 }
 
 migrate(){
     echo "Apply application DB migrations"
-    docker exec -it globus_php_1 php yii migrate
+    docker exec -it okocrm_php_1 php yii migrate
 }
 
 chown(){
@@ -225,7 +225,7 @@ chown(){
         ;;
     linux)
         echo "Changing owner of application files"
-        sudo chown $USER:$USER -R app/globus
+        sudo chown $USER:$USER -R app/okocrm
         ;;
     mac)
         echo "Changing owner of application files on iOs"
@@ -240,8 +240,8 @@ chmode-runtime(){
     windows)
         ;;
     linux)
-        echo "sudo chmod 777 -R app/globus/runtime"
-        sudo chmod 777 -R app/globus/runtime
+        echo "sudo chmod 777 -R app/okocrm/runtime"
+        sudo chmod 777 -R app/okocrm/runtime
         ;;
     mac)
         ;;
