@@ -19,12 +19,20 @@
 
         chmod +x oko
 
+Что бы контейнер смог скачать все зависимости Вам необходимо добавить ssh ключи в контейнер.
+
+Для корректной работы необходимо, что б в директории ~/.ssh на ОС лежали ключи, добавленные в аккаунт репозитория
+
+Ключи в docker контейнер добавляются командой:
+
+    ./oko link-ssh
+    
 ### Возможности ./oko: ###
 
-    $ ./yupe2
+    $ ./oko
     usage: ./oko [set-env] [check-env] [check-config]
                    [build] [build-nocache] [create] [install] [update]
-                   [start] [stop] [restart] [ps] [init] [migrate] 
+                   [start] [stop] [restart] [ps] [init] [migrate] [link-ssh]
 
     description:
           set-env           - set application environment [ dev | prod ]
@@ -41,6 +49,7 @@
           ps                - list of working containers in current environment
           init              - initialisation of OkoCRM application
           migrate           - docker exec -it yokocrm_php_1 php yii migrate
+          link-ssh          - ln -s ~/.ssh ./docker/source/ssh
 
 
     ./oko set-env [ dev | prod ]

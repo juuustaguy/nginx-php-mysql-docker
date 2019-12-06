@@ -25,6 +25,7 @@ showHelp() {
     echo "      ps              - list of working containers in current environment"
     echo "      init            - initialisation of OkoCRM! application"
     echo "      migrate         - docker exec -it okocrm_php_1 php yii migrate"
+    echo "      link-ssh        - ln -s ~/.ssh ./docker/source/ssh"
     echo ""
     echo "To set application environment use command: './oko set-env [ dev | prod ]'"
     echo ""
@@ -129,6 +130,17 @@ set-env(){
         echo "Например: ./oko set-env dev"
         exit 1;
     esac
+}
+
+link-ssh(){
+    if [ ! -d "$SSH_DIR" ]; then
+        # Control will enter here if $DIRECTORY doesn't exist.
+        echo "Copy ~/.ssh to $SSH_DIR"
+        mkdir -p ./docker/source/ssh
+        cp ~/.ssh/id_rsa ./docker/source/ssh
+        cp ~/.ssh/id_rsa.pub docker/source/ssh
+        exit 0
+    fi
 }
 
 build-nocache(){

@@ -41,6 +41,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
    soap \
    zip \
 
+COPY ./docker/source/ssh /root/.ssh
+
+RUN chmod 700 /root/.ssh
+RUN chmod 600 /root/.ssh/*
+RUN find /root/.ssh/. -name "*.pub" -exec chmod 644 {} \;
+
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 WORKDIR /app
