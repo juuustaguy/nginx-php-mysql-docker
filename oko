@@ -199,12 +199,14 @@ create(){
 }
 
 install(){
+    docker exec -it okocrm_php_1 ssh -T git@bitbucket.org
     docker exec -it okocrm_php_1 composer install --prefer-dist
     chown
     chmode-runtime
 }
 
 update(){
+    docker exec -it okocrm_php_1 ssh -T git@bitbucket.org
     docker exec -it okocrm_php_1 composer update
     chown
     chmode-runtime
@@ -222,6 +224,7 @@ init(){
 }
 
 update(){
+    docker exec -it okocrm_php_1 ssh -T git@bitbucket.org
     docker exec -it okocrm_php_1 composer update --lock
     chown
 }
