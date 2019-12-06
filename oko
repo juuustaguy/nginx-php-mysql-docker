@@ -234,15 +234,6 @@ chown(){
     esac
 }
 
-link-ssh(){
-    if [ ! -d "$SSH_DIR" ]; then
-        # Control will enter here if $DIRECTORY doesn't exist.
-        echo "Symbol link ~/.ssh to $SSH_DIR"
-        ln -s ~/.ssh $SSH_DIR
-        exit 0
-    fi
-}
-
 chmode-runtime(){
     echo "Changing mode of application files"
     case "$PLATFORM" in
