@@ -5,5 +5,4 @@
 /temp
 /docker/env/app_env
 /app/composer.lock
-/docker/env/dev/XDEBUG_CONFIG.env
 /docker/source/ssh
