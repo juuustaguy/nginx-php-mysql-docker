@@ -217,7 +217,7 @@ init(){
     docker exec -it okocrm_php_1 php init
     docker exec -it okocrm_php_1 php yii plugin/install-all
     docker exec -it okocrm_php_1 php yii user/user/create
-    sudo chmod 777 -R app/okocrm/config/plugin-local.php
+    sudo chmod 777 -R app/okocrm/configs/plugin-local.php
     sudo chmod 777 -R app/okocrm/web/static/assets
     chown
     echo 'Initialisation OkoCRM complete!'
