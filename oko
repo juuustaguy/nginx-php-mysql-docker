@@ -17,6 +17,7 @@ showHelp() {
     echo "      build           - build docker containers for application"
     echo "      build-nocache   - force build docker containers for application without docker cached images"
     echo "      create          - cd app && git clone git@bitbucket.org:bttree/yupe2-project-template.git okocrm"
+    echo "      create-nuxt     - git clone git@bitbucket.org:bttree/oko-crm-nuxt.git nuxt"
     echo "      install         - composer install --prefer-dist"
     echo "      update          - composer update --lock"
     echo "      start           - start application environment"
@@ -192,10 +193,15 @@ check-config(){
 }
 
 create(){
+    git clone git@bitbucket.org:bttree/oko-crm-nuxt.git nuxt
     mkdir app
     cd app
     git clone git@bitbucket.org:bttree/yupe2-project-template.git okocrm
     cd ..
+}
+
+create-nuxt(){
+    git clone git@bitbucket.org:bttree/oko-crm-nuxt.git nuxt
 }
 
 install(){
