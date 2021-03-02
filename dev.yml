@@ -37,6 +37,19 @@ services:
       - "./docker/env/dev/XDEBUG_CONFIG.env"
       - "./docker/env/dev/PHP_IDE_CONFIG.env"
       - "./docker/env/dev/APP_ENV.env"
+  nuxt:
+    build: ./nuxt
+    environment:
+      - HOST=0.0.0.0
+    ports:
+      - "3001:3000"
+    volumes:
+      - "node_modules:/app/node_modules"
+      - "./nuxt/oko:/app"
+      - "./nuxt/logs:/root/.npm/_logs"
+    command: bash -c "chmod -R 777 /app/node_modules && npm run dev" # dev
 volumes:
   db_data:
     external: false
+  node_modules:
+    driver: local
