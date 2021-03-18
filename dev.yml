@@ -41,8 +41,9 @@ services:
     build: ./nuxt
     environment:
       - HOST=0.0.0.0
+      - BASE_URL=${NUXT_BASE_URL}
     ports:
-      - "3001:3000"
+      - "${EXTERNAL_NUXT_DEV_PORT}:3000"
     volumes:
       - "node_modules:/app/node_modules"
       - "./nuxt/oko:/app"

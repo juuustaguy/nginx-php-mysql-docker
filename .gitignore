@@ -1,6 +1,8 @@
 .idea
 /.idea
 .vagrant
+.env
+okodev
 /.vagrant
 /temp
 /docker/env/app_env
