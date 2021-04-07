@@ -24,6 +24,7 @@ services:
     volumes:
       - "db_data:/var/lib/mysql"
       - "./docker/source/mysql/db_dump/db_okocrm:/docker-entrypoint-initdb.d"
+      - "./docker/source/mysql/tmp:/var/tmp"
     env_file:
       - "./docker/env/dev/db.env"
   php:
@@ -45,12 +46,10 @@ services:
     ports:
       - "${EXTERNAL_NUXT_DEV_PORT}:3000"
     volumes:
-      - "node_modules:/app/node_modules"
+      - "./nuxt/oko/node_modules:/app/node_modules"
       - "./nuxt/oko:/app"
       - "./nuxt/logs:/root/.npm/_logs"
-    command: bash -c "chmod -R 777 /app/node_modules && npm run dev" # dev
+    command: bash -c "chmod -R 777 /app/node_modules && npm install && npm run dev" # dev
 volumes:
   db_data:
     external: false
-  node_modules:
-    driver: local
