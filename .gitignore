@@ -1,11 +1,12 @@
 .idea
 /.idea
 .vagrant
-.env
+/.env
 okodev
 /.vagrant
 /temp
 /docker/env/app_env
 /app/composer.lock
 /docker/source/ssh
+/docker/env/prod/VIRTUAL_HOST.env
 s.panelobm.ru
