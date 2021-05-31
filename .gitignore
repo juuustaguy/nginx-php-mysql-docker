@@ -10,3 +10,4 @@ okodev
 /docker/source/ssh
 /docker/env/prod/VIRTUAL_HOST.env
 s.panelobm.ru
+/redis
