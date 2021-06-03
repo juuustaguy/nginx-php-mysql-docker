@@ -40,7 +40,13 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
    gettext \
    exif \
    soap \
-   zip
+   zip \
+;
+
+RUN pecl install -o -f redis \
+    &&  rm -rf /tmp/pear \
+    &&  docker-php-ext-enable redis \
+;
 
 COPY ./docker/source/ssh /root/.ssh
 
