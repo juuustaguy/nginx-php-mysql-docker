@@ -2,6 +2,8 @@ FROM php:7.2-fpm
 
 COPY ./docker/source/php/dev/config/php.ini /usr/local/etc/php/
 
+RUN apt --fix-broken install
+
 RUN apt-get update && apt-get install -y --no-install-recommends \
         tar \
         zip \
