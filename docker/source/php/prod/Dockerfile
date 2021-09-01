@@ -43,6 +43,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
    exif \
    soap \
    zip \
+   pcntl \
+   posix \
+&& docker-php-ext-configure pcntl --enable-pcntl \
 ;
 
 RUN pecl install -o -f redis \

@@ -18,6 +18,7 @@ showHelp() {
     echo "      build-nocache   - force build docker containers for application without docker cached images"
     echo "      create          - cd app && git clone git@bitbucket.org:bttree/yupe2-project-template.git okocrm"
     echo "      create-nuxt     - git clone git@bitbucket.org:bttree/oko-crm-nuxt.git nuxt"
+    echo "      nuxt-static     - generate static project for prod"
     echo "      install         - composer install --prefer-dist"
     echo "      update          - composer update --lock"
     echo "      start           - start application environment"
@@ -202,6 +203,12 @@ create(){
 
 create-nuxt(){
     git clone git@bitbucket.org:bttree/oko-crm-nuxt.git nuxt
+}
+
+nuxt-static(){
+    docker exec -it okocrm_nuxt_1 npm run generate
+    rm -rf ./nuxt/oko/lk/*
+    cp -R ./nuxt/oko/dist/* ./nuxt/oko/lk
 }
 
 install(){
