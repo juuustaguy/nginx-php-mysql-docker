@@ -29,6 +29,7 @@ showHelp() {
     echo "      init            - initialisation of OkoCRM! application"
     echo "      migrate         - docker exec -it okocrm_php_1 php yii migrate"
     echo "      link-ssh        - ln -s ~/.ssh ./docker/source/ssh"
+    echo "      import_sql      - importing *.sql file to db
     echo ""
     echo "To set application environment use command: './oko set-env [ dev | prod ]'"
     echo ""
@@ -295,6 +296,17 @@ init-xdebug(){
             ;;
         esac
     fi
+}
+
+import_sql() {
+    echo "Enter *.sql filename"
+    read name
+
+    if [ ! -f ./docker/source/mysql/tmp/"$name".sql ]; then
+          echo "File not exist:" ./docker/source/mysql/tmp/"$name".sql
+          exit 0;
+    fi
+    docker exec -i okocrm_db_1 mysql -u root -p123 db_oko < ./docker/source/mysql/tmp/"$name".sql
 }
 
 case "$1" in
