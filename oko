@@ -29,7 +29,7 @@ showHelp() {
     echo "      init            - initialisation of OkoCRM! application"
     echo "      migrate         - docker exec -it okocrm_php_1 php yii migrate"
     echo "      link-ssh        - ln -s ~/.ssh ./docker/source/ssh"
-    echo "      import_sql      - importing *.sql file to db
+    echo "      import_sql      - importing *.sql file to db"
     echo ""
     echo "To set application environment use command: './oko set-env [ dev | prod ]'"
     echo ""
