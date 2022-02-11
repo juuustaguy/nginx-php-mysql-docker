@@ -217,8 +217,8 @@ nuxt-replace(){
 }
 
 install(){
-    docker exec -it okocrm-php-1 ssh -T git@bitbucket.org
-    docker exec -it okocrm-php-1 composer install --prefer-dist
+    docker exec -it okocrm_php_1 ssh -T git@bitbucket.org
+    docker exec -it okocrm_php_1 composer install --prefer-dist
     chown
     chmode-runtime
 }
@@ -232,9 +232,9 @@ update(){
 
 init(){
     sudo chmod 777 -R app/okocrm/runtime/
-    docker exec -it okocrm-php-1 php init
-    docker exec -it okocrm-php-1 php yii plugin/install-all
-    docker exec -it okocrm-php-1 php yii user/user/create
+    docker exec -it okocrm_php_1 php init
+    docker exec -it okocrm_php_1 php yii plugin/install-all
+    docker exec -it okocrm_php_1 php yii user/user/create
     sudo chmod 777 -R app/okocrm/configs/plugins-local.php
     sudo chmod 777 -R app/okocrm/web/static/assets
     chown
@@ -251,7 +251,7 @@ update(){
 
 migrate(){
     echo "Apply application DB migrations"
-    docker exec -it okocrm-php-1 php yii migrate
+    docker exec -it okocrm_php_1 php yii migrate
 }
 
 chown(){
