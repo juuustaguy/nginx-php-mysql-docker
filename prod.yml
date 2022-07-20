@@ -38,6 +38,7 @@ services:
     restart: always
     volumes:
       - "./app/okocrm:/app"
+      - "./docker/source/php/prod/config/php.ini:/usr/local/etc/php/php.ini"
     env_file:
       - "./docker/env/prod/APP_ENV.env"
   nuxt:
@@ -52,7 +53,7 @@ services:
       - "./nuxt/oko:/app"
       - "./nuxt/logs:/root/.npm/_logs"
     restart: always
-    #command: bash -c "chmod -R 777 /app/node_modules && npm install && npm run build && npm run start" # dev
+    command: bash -c "chmod -R 777 /app/node_modules && npm install && npm run build && npm run start" # dev
   redis:
     image: redis:alpine
     command: redis-server --appendonly yes --requirepass Au4JPDFP2eQVEptG
