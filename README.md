@@ -4,7 +4,7 @@
 
 Для клонирования репозитория используйте команду:
 
-	git clone git@bitbucket.org:bttree/docker-okocrm.git okocrm
+	git clone git@github.com:Real-n0name/nginx-php-mysql-docker.git
 	
 Важно клонировать проект в папку с именем `okocrm`
 
