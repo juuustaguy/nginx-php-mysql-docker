@@ -20,7 +20,7 @@ services:
       context: ./
       dockerfile: "./docker/source/mysql/dev/Dockerfile"
     ports:
-      - "${EXTERNAL_DB_DEV_PORT}:3306"
+      - "${EXTERNAL_DB_DEV_PORT}:33065"
     volumes:
       - "db_data:/var/lib/mysql"
       - "./docker/source/mysql/db_dump/db_okocrm:/docker-entrypoint-initdb.d"
@@ -38,18 +38,6 @@ services:
       - "./docker/env/dev/XDEBUG_CONFIG.env"
       - "./docker/env/dev/PHP_IDE_CONFIG.env"
       - "./docker/env/dev/APP_ENV.env"
-  nuxt:
-    build: ./nuxt
-    environment:
-      - HOST=0.0.0.0
-      - BASE_URL=${NUXT_BASE_URL}
-    ports:
-      - "${EXTERNAL_NUXT_DEV_PORT}:3000"
-    volumes:
-      - "./nuxt/oko/node_modules:/app/node_modules"
-      - "./nuxt/oko:/app"
-      - "./nuxt/logs:/root/.npm/_logs"
-    command: bash -c "chmod -R 777 /app/node_modules && npm install && npm run dev" # dev
 volumes:
   db_data:
     external: false
